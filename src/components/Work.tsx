@@ -12,7 +12,7 @@ const projects = [
     technologies: ['Node js', 'Express', 'Prisma', 'PostgreSQL', 'Auth0', 'React', 'Monaco-editor', 'Tailwind CSS', 'Zod', 'Zustand'],
     features: ['Learning platform', 'Custom problem sets', 'Integrated environment', 'Integrated code execution environment', 'Cloud Storage', 'Personal problem sheets', 'Level based learning'],
     liveDemo: 'https://loveleetcode.in',
-    sourceCode: 'https://github.com/kevish-is-building/love-leetcode-platform',
+    sourceCode: 'https://github.com/kevish-is-learning/love-leetcode-platform',
     reverse: false
   },
   {
@@ -42,7 +42,7 @@ const projects = [
     technologies: ['React', 'Tailwind CSS', 'JavaScript'],
     features: ['Personalized Workout Plans', 'Nutrition Tracking', 'Progress Monitoring', 'Community Support', 'Expert Guidance'],
     liveDemo: 'https://health-up-weld.vercel.app/',
-    sourceCode: 'https://github.com/Kevish07/Health-UP',
+    sourceCode: 'https://github.com/kevish-is-learning/Health-UP',
     reverse: true
   },
   {

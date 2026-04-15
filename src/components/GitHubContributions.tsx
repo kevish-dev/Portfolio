@@ -79,7 +79,7 @@ export default function GitHubContributions() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loadingTab, setLoadingTab] = useState<string | null>(null);
 
-  const username = "kevish-is-building";
+  const username = "kevish-is-learning";
   const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN || "";
 
   useEffect(() => {
