@@ -31,7 +31,7 @@ const projects = [
     description: 'Neutron Fest is a leading AI-focused techno-cultural festival by Newton School of Technology and Rishihood University, showcasing innovation through tech events and cultural programs and creating an engaging user experience for festival attendees and participants.',
     technologies: ['React', 'Tailwind CSS', 'CSS'],
     features: ['Interactive & Creative design', 'Event details', 'Dynamic navigation', 'Schedules', 'Registration', 'Partner information'],
-    liveDemo: 'https://neutronfest.com/',
+    liveDemo: 'https://neutron2-0-windows95.vercel.app',
     sourceCode: null,
     reverse: false
   },
