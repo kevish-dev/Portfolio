@@ -19,8 +19,8 @@ export default function ResumePage() {
             </Link>
             
             <a
-              href="/Resume-Kevish%20Sewliya.pdf"
-              download="Resume-Kevish-Sewliya-2028"
+              href="/Kevish_Resume.pdf"
+              download="Kevish_Resume.pdf"
               className="flex items-center gap-2 bg-[#c5f467] text-black py-2 px-6 rounded-full font-semibold transition-all duration-300 hover:bg-[#b5e457]"
             >
               <Download className="w-4 h-4" />
@@ -34,7 +34,7 @@ export default function ResumePage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
           <iframe
-            src="/Resume-Kevish%20Sewliya.pdf"
+            src="/Kevish_Resume.pdf"
             className="w-full h-[calc(100vh-180px)] min-h-[800px]"
             title="Resume - Kevish Sewliya"
           />
