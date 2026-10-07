@@ -3,59 +3,8 @@
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-
-const projects = [
-  {
-    title: 'Love leetcode',
-    image: '/Loveleetcode.png',
-    description: 'A Fullstack leetcode inspired platform for practicing coding problems and solving DSA challenges with a user-friendly interface and interactive features. User can practice coding problems, track progress, and improve their skills in a fresh looking environment.',
-    technologies: ['Node js', 'Express', 'Prisma', 'PostgreSQL', 'Auth0', 'React', 'Monaco-editor', 'Tailwind CSS', 'Zod', 'Zustand'],
-    features: ['Learning platform', 'Custom problem sets', 'Integrated environment', 'Integrated code execution environment', 'Cloud Storage', 'Personal problem sheets', 'Level based learning'],
-    liveDemo: 'https://loveleetcode.in',
-    sourceCode: 'https://github.com/kevish-is-learning/love-leetcode-platform',
-    reverse: false
-  },
-  {
-    title: 'Dcode',
-    image: '/Dcode.png',
-    description: 'A full-stack web application for open source contribution with exciting rewards and managing multiple repositories. Your open-source contributing platform, built with React.js, facilitates seamless collaboration on open-source projects. It enables developers to explore projects, contribute via pull requests, and engage with maintainers.',
-    technologies: ['React', 'Node.js', 'Firebase', 'MongoDB', 'Firebase Auth', 'Auth0'],
-    features: ['User Authentication', 'Contribution Management', 'Leaderboard Recognition', 'Task assignment', 'Progress tracking', 'Admin Tools'],
-    liveDemo: 'https://dcode.codes',
-    sourceCode: 'https://github.com/DCODE-HQ/DCODE-platform',
-    reverse: true
-  },
-  {
-    title: 'Neutron 2025',
-    image: '/Neutron2025.png',
-    description: 'Neutron Fest is a leading AI-focused techno-cultural festival by Newton School of Technology and Rishihood University, showcasing innovation through tech events and cultural programs and creating an engaging user experience for festival attendees and participants.',
-    technologies: ['React', 'Tailwind CSS', 'CSS'],
-    features: ['Interactive & Creative design', 'Event details', 'Dynamic navigation', 'Schedules', 'Registration', 'Partner information'],
-    liveDemo: 'https://neutron2-0-windows95.vercel.app',
-    sourceCode: null,
-    reverse: false
-  },
-  {
-    title: 'Health Up',
-    image: '/Health-Up.jpeg',
-    description: 'Health Up is a comprehensive health and fitness platform that offers personalized workout plans, nutrition tracking, and progress monitoring to help users achieve their fitness goals.',
-    technologies: ['React', 'Tailwind CSS', 'JavaScript'],
-    features: ['Personalized Workout Plans', 'Nutrition Tracking', 'Progress Monitoring', 'Community Support', 'Expert Guidance'],
-    liveDemo: 'https://health-up-weld.vercel.app/',
-    sourceCode: 'https://github.com/kevish-is-learning/Health-UP',
-    reverse: true
-  },
-  {
-    title: 'University Fest',
-    image: '/Neutron2.O-retro.jpeg',
-    description: 'A university fest website that showcases the events, workshops, and competitions of the fest with a user-friendly interface and interactive features. Users can explore the fest details, register for events, and stay updated with the latest news and announcements.',
-    technologies: ['React', 'Tailwind CSS', 'JavaScript'],
-    features: ['Event details', 'Dynamic navigation', 'Schedules', 'Registration', 'Partner information'],
-    liveDemo: 'https://neutron2-0-retro.vercel.app/',
-    sourceCode: null,
-    reverse: false
-  }
-]
+import { GITHUB_REPOS_URL } from '@/data/site'
+import { projects } from '@/data/projects'
 
 export default function Work() {
   const [visibleProjects, setVisibleProjects] = useState<Set<number>>(new Set())
@@ -104,7 +53,7 @@ export default function Work() {
             <div className="w-full md:w-1/2">
               <Image 
                 src={project.image} 
-                alt={project.title}
+                alt={project.imageAlt}
                 width={600}
                 height={400}
                 className="w-full h-auto object-cover rounded-xl shadow-lg transition-transform duration-300 hover:scale-[1.02]"
@@ -133,18 +82,30 @@ export default function Work() {
                 </ul>
               </div>
               
-              <div className="flex gap-4 mt-4">
+              <div className="flex flex-wrap gap-4 mt-4">
+                {project.liveDemo && (
                 <Link 
                   href={project.liveDemo} 
                   target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${project.title} live demo`}
                   className="inline-flex items-center gap-2 no-underline py-2.5 px-5 text-sm rounded-md transition-all duration-300 bg-blue-600 text-white hover:bg-blue-800"
                 >
-                  🔗 Live Demo
+                  🔗 Live demo
+                </Link>
+                )}
+                <Link
+                  href={`/projects/${project.slug}`}
+                  className="inline-flex items-center gap-2 no-underline py-2.5 px-5 text-sm rounded-md transition-all duration-300 border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
+                >
+                  Case study: {project.title}
                 </Link>
                 {project.sourceCode && (
                   <Link 
                     href={project.sourceCode} 
                     target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${project.title} source code on GitHub`}
                     className="inline-flex items-center gap-2 no-underline py-2.5 px-5 text-sm rounded-md transition-all duration-300 bg-gray-900 text-white hover:bg-black"
                   >
                     🐙 Source Code
@@ -160,9 +121,9 @@ export default function Work() {
       <p className={`text-lg transition-all duration-700 delay-1000 ${
         titleVisible ? 'opacity-100' : 'opacity-0'
       }`}>
-        For More Such work{' '}
-        <Link href="https://github.com/Kevish07" className="text-orange-500 hover:underline">
-          Check out this
+        More of my work is on GitHub:{' '}
+        <Link href={GITHUB_REPOS_URL} className="text-orange-500 hover:underline">
+          View all repositories
         </Link>
       </p>
     </section>

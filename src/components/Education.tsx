@@ -9,14 +9,14 @@ const educationData = [
     institution: 'Newton School of Technology, Rishihood University',
     degree: 'Bachelor in Computer Science and Artificial Intelligence',
     duration: '2024 - 2028',
-    description: 'Specialized in Machine Learning and Artificial Intelligence.'
+    description: 'Currently studying Computer Science and AI, with a focus on machine learning.'
   },
   {
     logo: '/Anss.png',
     institution: 'Adharsh Navodaya Public School',
-    degree: 'High Secondary Education',
+    degree: 'School education',
     duration: '2010 - 2024',
-    description: 'Graduated with honors, With Leadership Qualities'
+    description: 'Completed school education before joining Newton School of Technology.'
   }
 ]
 

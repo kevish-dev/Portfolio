@@ -83,10 +83,10 @@ export default function Hero() {
               descVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}>
               <p className="mb-4">
-                This portfolio is built to answer one question clearly: <em>why me over another developer with the same stack?</em>
+                I&apos;m a full-stack developer and a computer science and AI student at Newton School of Technology, Rishihood University. As Secretary General of Dev Club, I lead the club&apos;s technical projects and mentor student developers.
               </p>
               <p>
-                I'm a full-stack engineer with real leadership experience, hands-on GenAI work, and a strong focus on building scalable SaaS products and developer tools. Backed by open-source contributions and tech-lead roles, I approach problems as a <strong>builder</strong>, <strong>leader</strong>, and <strong>problem solver</strong>—not just a student developer.
+                I built <strong>Love LeetCode</strong>, a DSA practice platform with 200+ registered users, and I&apos;m the second-largest contributor to <strong>DCODE</strong>, a student-led open-source platform.
               </p>
             </div>
             
@@ -94,7 +94,7 @@ export default function Hero() {
               buttonVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}>
               <Link 
-                href="mailto:your.email@example.com"
+                href="/contact"
                 className="inline-block bg-[#c5f467] text-black py-4 px-8 rounded-full font-semibold no-underline transition-all duration-300 hover:bg-[#b5e457] hover:-translate-y-0.5"
               >
                 Contact Me
