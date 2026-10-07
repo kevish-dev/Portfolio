@@ -6,6 +6,9 @@ import Work from "@/components/Work";
 import Education from "@/components/Education";
 import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/next";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default function Home() {
   return (

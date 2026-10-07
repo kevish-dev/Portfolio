@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { GITHUB_USERNAME } from "@/data/site";
 
 interface GitHubStats {
   publicRepos: number;
@@ -79,8 +80,7 @@ export default function GitHubContributions() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loadingTab, setLoadingTab] = useState<string | null>(null);
 
-  const username = "kevish-is-learning";
-  const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN || "";
+  const username = GITHUB_USERNAME;
 
   useEffect(() => {
     fetchGitHubData();
@@ -122,15 +122,8 @@ export default function GitHubContributions() {
     }
   }, [contributions, loading, activeTab]);
 
-  const fetchWithAuth = (url: string) => {
-    const headers: HeadersInit = {
-      Accept: "application/vnd.github.v3+json",
-    };
-    if (GITHUB_TOKEN) {
-      headers["Authorization"] = `token ${GITHUB_TOKEN}`;
-    }
-    return fetch(url, { headers });
-  };
+  // GitHub API calls go through /api/github (server-side token + caching).
+  const fetchWithAuth = (url: string) => fetch(url);
 
   const calculateStreak = (contributions: ContributionDay[]) => {
     let currentStreak = 0;
@@ -175,7 +168,7 @@ export default function GitHubContributions() {
   const fetchGitHubData = async () => {
     try {
       const userResponse = await fetchWithAuth(
-        `https://api.github.com/users/${username}`,
+        `/api/github/users/${username}`,
       );
       const userData = await userResponse.json();
 
@@ -186,7 +179,7 @@ export default function GitHubContributions() {
       );
 
       const reposResponse = await fetchWithAuth(
-        `https://api.github.com/users/${username}/repos?per_page=100&sort=updated`,
+        `/api/github/users/${username}/repos?per_page=100&sort=updated`,
       );
       const reposData = await reposResponse.json();
 
@@ -290,7 +283,7 @@ export default function GitHubContributions() {
     setLoadingTab("repositories");
     try {
       const response = await fetchWithAuth(
-        `https://api.github.com/users/${username}/repos?per_page=100&sort=updated`,
+        `/api/github/users/${username}/repos?per_page=100&sort=updated`,
       );
       const data = await response.json();
       if (Array.isArray(data)) {
@@ -307,7 +300,7 @@ export default function GitHubContributions() {
     setLoadingTab("followers");
     try {
       const response = await fetchWithAuth(
-        `https://api.github.com/users/${username}/followers?per_page=100`,
+        `/api/github/users/${username}/followers?per_page=100`,
       );
       const data = await response.json();
       if (Array.isArray(data)) {
@@ -324,7 +317,7 @@ export default function GitHubContributions() {
     setLoadingTab("following");
     try {
       const response = await fetchWithAuth(
-        `https://api.github.com/users/${username}/following?per_page=100`,
+        `/api/github/users/${username}/following?per_page=100`,
       );
       const data = await response.json();
       if (Array.isArray(data)) {
@@ -341,7 +334,7 @@ export default function GitHubContributions() {
     setLoadingTab("stars");
     try {
       const response = await fetchWithAuth(
-        `https://api.github.com/users/${username}/starred?per_page=100`,
+        `/api/github/users/${username}/starred?per_page=100`,
       );
       const data = await response.json();
       if (Array.isArray(data)) {
@@ -497,12 +490,35 @@ export default function GitHubContributions() {
     </div>
   );
 
+  const widgetHeader = (
+    <div className="flex items-center justify-between mb-3">
+      <div>
+        <p className="text-xs text-gray-600 uppercase tracking-wide font-medium mb-0.5">
+          GitHub
+        </p>
+        <h2 className="text-lg font-semibold text-gray-900">@{username}</h2>
+      </div>
+      <a
+        href={`https://github.com/${username}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${username} on GitHub`}
+        className="text-gray-600 hover:text-gray-900 transition-colors"
+      >
+        <svg viewBox="0 0 16 16" width="20" height="20" fill="currentColor" aria-hidden="true">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+        </svg>
+      </a>
+    </div>
+  );
+
   if (loading) {
     return (
       <div className="w-full max-w-4xl mx-auto">
         <div className="bg-white rounded-lg p-4 border border-gray-200">
-          <div className="animate-pulse space-y-3">
-            <div className="h-4 bg-gray-200 rounded w-32 mb-3"></div>
+          {widgetHeader}
+          {/* Distinct keys stop React reusing skeleton nodes for real content, which caused a layout shift */}
+          <div key="skeleton" className="animate-pulse space-y-3">
             <div className="flex flex-wrap gap-1.5 mb-4">
               {[...Array(7)].map((_, i) => (
                 <div key={i} className="h-8 bg-gray-200 rounded w-24"></div>
@@ -527,26 +543,9 @@ export default function GitHubContributions() {
   return (
     <div className="w-full max-w-4xl mx-auto">
       <div className="bg-white rounded-lg p-4 border border-gray-200">
-        <div className="flex items-center justify-between mb-3">
-          <div>
-            <p className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-0.5">
-              GitHub
-            </p>
-            <h2 className="text-lg font-semibold text-gray-900">@{username}</h2>
-          </div>
-          <a
-            href={`https://github.com/${username}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-600 hover:text-gray-900 transition-colors"
-          >
-            <svg viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
-              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
-            </svg>
-          </a>
-        </div>
+        {widgetHeader}
 
-        <div className="flex flex-wrap gap-1.5 mb-4 border-b border-gray-200 pb-3">
+        <div key="tabs" className="flex flex-wrap gap-1.5 mb-4 border-b border-gray-200 pb-3">
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -561,7 +560,7 @@ export default function GitHubContributions() {
               {tab.count !== undefined && (
                 <span
                   className={`text-xs ${
-                    activeTab === tab.id ? "text-gray-300" : "text-gray-500"
+                    activeTab === tab.id ? "text-gray-300" : "text-gray-600"
                   }`}
                 >
                   ({formatNumber(tab.count)})
@@ -714,7 +713,7 @@ export default function GitHubContributions() {
                           {repo.description}
                         </p>
                       )}
-                      <div className="flex items-center gap-2 text-xs text-gray-500">
+                      <div className="flex items-center gap-2 text-xs text-gray-600">
                         {repo.language && (
                           <span className="px-1.5 py-0.5 bg-white rounded">
                             {repo.language}
@@ -832,12 +831,12 @@ export default function GitHubContributions() {
                 )}
               </div>
 
-              <div className="flex justify-between mt-2 text-xs text-gray-500">
+              <div className="flex justify-between mt-2 text-xs text-gray-600">
                 <span>{startMonth}</span>
                 <span>{endMonth}</span>
               </div>
 
-              <div className="flex items-center justify-end gap-1 mt-2 text-xs text-gray-500">
+              <div className="flex items-center justify-end gap-1 mt-2 text-xs text-gray-600">
                 <span className="text-[10px]">Less</span>
                 <div className="w-2.5 h-2.5 rounded-sm bg-[#ebedf0]"></div>
                 <div className="w-2.5 h-2.5 rounded-sm bg-[#d4f0c4]"></div>
@@ -885,7 +884,7 @@ export default function GitHubContributions() {
                         <p className="font-medium text-xs text-gray-900 truncate">
                           {follower.name || follower.login}
                         </p>
-                        <p className="text-[10px] text-gray-500 truncate">
+                        <p className="text-[10px] text-gray-600 truncate">
                           @{follower.login}
                         </p>
                       </div>
@@ -934,7 +933,7 @@ export default function GitHubContributions() {
                         <p className="font-medium text-xs text-gray-900 truncate">
                           {user.name || user.login}
                         </p>
-                        <p className="text-[10px] text-gray-500 truncate">
+                        <p className="text-[10px] text-gray-600 truncate">
                           @{user.login}
                         </p>
                       </div>
@@ -980,7 +979,7 @@ export default function GitHubContributions() {
                       <p className="font-medium text-xs text-gray-900 truncate">
                         {repo.name}
                       </p>
-                      <p className="text-[10px] text-gray-500 truncate">
+                      <p className="text-[10px] text-gray-600 truncate">
                         by @{repo.owner.login}
                       </p>
                     </div>

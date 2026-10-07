@@ -6,14 +6,16 @@ import Image from 'next/image'
 const experiences = [
   {
     logo: '/Dev-Club.jpeg',
-    title: 'Full Stack Developer',
-    company: 'Dev Club',
-    duration: 'August 2024 - Present',
-    description: 'Produced frontend products for university infrastructure. Worked with JavaScript, Tailwind, React js.',
+    title: 'Secretary General',
+    company: 'Dev Club (NST × RU)',
+    duration: 'September 2024 - Present',
+    description: 'Lead the developer club of Newton School of Technology and Rishihood University: its technical projects, programs and community.',
     achievements: [
-      'Learned how to handle conflicts while collaborating in a huge code base product',
-      'Got involved deep usage of git and github for working on open source projects',
-      'Currently working on identifying real world problems to make a ease'
+      'Secretary General (Sep 2025 - present): coordinate the club\'s teams, plan developer programs and run club operations.',
+      'Maven (Feb 2025 - present): lead development teams on club projects, take part in architecture decisions and review implementations.',
+      'Run technical sessions and workshops on web development and software engineering for junior members.',
+      'Joined as a member in Sep 2024 and contributed to the club\'s open-source projects on GitHub.',
+      // TODO: add numbers when available (club size, teams led, workshops run, projects shipped)
     ]
   },
   {
@@ -21,23 +23,21 @@ const experiences = [
     title: 'Frontend Developer',
     company: 'Neutron Fest',
     duration: 'March 2025 - April 2025',
-    description: 'Built responsive and feasible product for Neutron Fest 2025. Worked with React js to create engaging user experiences.',
+    description: 'Rebuilt the festival website from scratch with the team for Neutron 2.0, the festival\'s second edition, in React and Tailwind CSS.',
     achievements: [
-      'Improved teamwork and communication skills, learned to handle panic situations',
-      'Got an opportunity to complete unfinished product and build it from scratch',
-      'Implemented scheduled and planned events, workshops and competitions of the fest'
+      'The site received 200K+ views; the festival drew 2K+ attendees through paid registrations.',
+      'Implemented the schedule of events, workshops and competitions.',
     ]
   },
   {
     logo: 'https://raw.githubusercontent.com/github/explore/e838e6d3526495c83c195ed234acf109cb781f00/topics/hacktoberfest/hacktoberfest.png',
-    title: 'Frontend Developer',
-    company: 'Hacktober Fest',
+    title: 'Open-source contributor',
+    company: 'Hacktoberfest',
     duration: 'October 2024 - November 2024',
-    description: 'First hands on experience of open source contribution and learned a lot of industry code. 7+ PR requests and 5+ successfully merged.',
+    description: 'Opened 6 pull requests across 4 repositories; 2 were merged.',
     achievements: [
-      'Started with helping maintainers with improving features of Amazon ui clone',
-      'Fixed ui and improved styles for user\'s personal projects',
-      'Contributed to GFG POTD problems and added more algorithms'
+      'Contributed front-end work to community repositories, including a GeeksforGeeks solutions repository and a Hacktoberfest repository.',
+      'Redesigned the interface of the ForkTheCaptcha project in two pull requests.',
     ]
   },
 ]
@@ -109,7 +109,7 @@ export default function Experience() {
               <p className="text-gray-500">{exp.description}</p>
               
               <div className="mt-2">
-                <h4 className="text-sm font-semibold">Key Achievements:</h4>
+                <h4 className="text-sm font-semibold">Highlights:</h4>
                 <ul className="list-disc pl-5 text-gray-500 text-sm mt-2">
                   {exp.achievements.map((achievement, i) => (
                     <li key={i}>{achievement}</li>

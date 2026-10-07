@@ -14,6 +14,7 @@ export default function Header() {
           <Link href="#skills" className="relative py-1 px-2 text-black no-underline text-lg transition-colors duration-300 hover:text-blue-500">Skills</Link>
           <Link href="#work" className="relative py-1 px-2 text-black no-underline text-lg transition-colors duration-300 hover:text-blue-500">Projects</Link>
           <Link href="#education" className="relative py-1 px-2 text-black no-underline text-lg transition-colors duration-300 hover:text-blue-500">Education</Link>
+          <Link href="/about" className="relative py-1 px-2 text-black no-underline text-lg transition-colors duration-300 hover:text-blue-500">About</Link>
         </nav>
     </header>
   )

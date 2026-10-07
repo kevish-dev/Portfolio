@@ -1,45 +1,38 @@
-'use client'
+import ResumeView from './ResumeView'
+import { pageMetadata } from '@/lib/seo'
+import { RESUME_BUCKET, dbSelect, isSupabaseConfigured, storagePublicUrl } from '@/lib/supabase'
 
-import Link from 'next/link'
-import { ArrowLeft, Download } from 'lucide-react'
+export const metadata = pageMetadata({
+  title: 'Resume',
+  description: 'Resume of Kevish Sewliya, full-stack developer and CS & AI student at Newton School of Technology. View it online or download the PDF.',
+  path: '/resume',
+})
 
-export default function ResumePage() {
+export const revalidate = 3600
+
+const FALLBACK = '/Kevish_Resume.pdf'
+const DOWNLOAD_NAME = 'Kevish_Sewliya_Resume.pdf'
+
+async function latestResume() {
+  if (!isSupabaseConfigured()) return null
+  try {
+    const [row] = await dbSelect<{ path: string }>('resume_versions', 'select=path&order=created_at.desc&limit=1', {
+      next: { revalidate: 3600 },
+    })
+    return row ? storagePublicUrl(RESUME_BUCKET, row.path) : null
+  } catch (e) {
+    console.error(e)
+    return null
+  }
+}
+
+export default async function ResumePage() {
+  const url = await latestResume()
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <Link 
-              href="/"
-              className="flex items-center gap-2 text-gray-700 hover:text-black transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              <span className="font-medium">Back to Portfolio</span>
-            </Link>
-            
-            <a
-              href="/Kevish_Resume.pdf"
-              download="Kevish_Resume.pdf"
-              className="flex items-center gap-2 bg-[#c5f467] text-black py-2 px-6 rounded-full font-semibold transition-all duration-300 hover:bg-[#b5e457]"
-            >
-              <Download className="w-4 h-4" />
-              Download PDF
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* PDF Viewer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          <iframe
-            src="/Kevish_Resume.pdf"
-            className="w-full h-[calc(100vh-180px)] min-h-[800px]"
-            title="Resume - Kevish Sewliya"
-          />
-        </div>
-      </div>
-    </div>
+    <ResumeView
+      pdfUrl={url ?? FALLBACK}
+      downloadUrl={url ? `${url}?download=${DOWNLOAD_NAME}` : FALLBACK}
+      downloadName={DOWNLOAD_NAME}
+    />
   )
 }

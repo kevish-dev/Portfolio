@@ -1,11 +1,13 @@
 'use client'
 
 import Link from 'next/link'
+import { socialUrls } from '@/data/site'
+import ViewCount from './ViewCount'
 
 const socialLinks = [
   {
     name: 'LinkedIn',
-    url: 'https://www.linkedin.com/in/kevish-sewliya/',
+    url: socialUrls.linkedin,
     icon: (
       <svg viewBox="0 0 448 512" height="28" width="28" fill="#0a66c2">
         <path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/>
@@ -15,7 +17,7 @@ const socialLinks = [
   },
   {
     name: 'Instagram',
-    url: 'https://www.instagram.com/kevish_is_learning',
+    url: socialUrls.instagram,
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0,0,256,256" width="28" height="28" fill="#e4405f">
         <g transform="scale(8,8)">
@@ -27,7 +29,7 @@ const socialLinks = [
   },
   {
     name: 'X',
-    url: 'https://x.com/kevish_on_x',
+    url: socialUrls.x,
     icon: (
       <svg viewBox="0 0 512 512" height="28" width="28" fill="black">
         <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/>
@@ -37,7 +39,7 @@ const socialLinks = [
   },
   {
     name: 'LeetCode',
-    url: 'https://leetcode.com/u/kevish_is_learning/',
+    url: socialUrls.leetcode,
     icon: (
       <svg width="28" height="28" viewBox="0 0 95 111" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M68.0063 83.0664C70.5 80.5764 74.5366 80.5829 77.0223 83.0809C79.508 85.579 79.5015 89.6226 77.0078 92.1127L65.9346 103.17C55.7187 113.371 39.06 113.519 28.6718 103.513C28.6117 103.456 23.9861 98.9201 8.72653 83.957C-1.42528 74.0029 -2.43665 58.0749 7.11648 47.8464L24.9282 28.7745C34.4095 18.6219 51.887 17.5122 62.7275 26.2789L78.9048 39.362C81.6444 41.5776 82.0723 45.5985 79.8606 48.3429C77.6488 51.0873 73.635 51.5159 70.8954 49.3003L54.7182 36.2173C49.0488 31.6325 39.1314 32.2622 34.2394 37.5006L16.4274 56.5727C11.7767 61.5522 12.2861 69.574 17.6456 74.8292C28.851 85.8169 37.4869 94.2846 37.4969 94.2942C42.8977 99.496 51.6304 99.4184 56.9331 94.1234L68.0063 83.0664Z" fill="#FFA116"/>
@@ -49,7 +51,7 @@ const socialLinks = [
   },
   {
     name: 'CodeForces',
-    url: 'https://codeforces.com/profile/Kevish_is_learning',
+    url: socialUrls.codeforces,
     icon: (
       <svg viewBox="0 0 24 24" height="28" width="28" fill="#1F8ACB">
         <path d="M4.5 7.5C5.328 7.5 6 8.172 6 9v10.5c0 .828-.672 1.5-1.5 1.5h-3C.672 21 0 20.328 0 19.5V9c0-.828.672-1.5 1.5-1.5h3zm9-4.5c.828 0 1.5.672 1.5 1.5v15c0 .828-.672 1.5-1.5 1.5h-3c-.828 0-1.5-.672-1.5-1.5v-15c0-.828.672-1.5 1.5-1.5h3zm9 7.5c.828 0 1.5.672 1.5 1.5v7.5c0 .828-.672 1.5-1.5 1.5h-3c-.828 0-1.5-.672-1.5-1.5V12c0-.828.672-1.5 1.5-1.5h3z"/>
@@ -59,7 +61,7 @@ const socialLinks = [
   },
   {
     name: 'GitHub',
-    url: 'https://github.com/kevish-is-learning/',
+    url: socialUrls.github,
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="28" height="28" fill="black">
         <path d="M15,3C8.373,3,3,8.373,3,15c0,5.623,3.872,10.328,9.092,11.63C12.036,26.468,12,26.28,12,26.047v-2.051 c-0.487,0-1.303,0-1.508,0c-0.821,0-1.551-0.353-1.905-1.009c-0.393-0.729-0.461-1.844-1.435-2.526 c-0.289-0.227-0.069-0.486,0.264-0.451c0.615,0.174,1.125,0.596,1.605,1.222c0.478,0.627,0.703,0.769,1.596,0.769 c0.433,0,1.081-0.025,1.691-0.121c0.328-0.833,0.895-1.6,1.588-1.962c-3.996-0.411-5.903-2.399-5.903-5.098 c0-1.162,0.495-2.286,1.336-3.233C9.053,10.647,8.706,8.73,9.435,8c1.798,0,2.885,1.166,3.146,1.481C13.477,9.174,14.461,9,15.495,9 c1.036,0,2.024,0.174,2.922,0.483C18.675,9.17,19.763,8,21.565,8c0.732,0.731,0.381,2.656,0.102,3.594 c0.836,0.945,1.328,2.066,1.328,3.226c0,2.697-1.904,4.684-5.894,5.097C18.199,20.49,19,22.1,19,23.313v2.734 c0,0.104-0.023,0.179-0.035,0.268C23.641,24.676,27,20.236,27,15C27,8.373,21.627,3,15,3z"/>
@@ -79,6 +81,8 @@ export default function Footer() {
               key={index}
               href={social.url}
               target="_blank"
+              rel="me noopener noreferrer"
+              aria-label={`Kevish Sewliya on ${social.name}`}
               className={`w-14 h-14 flex items-center justify-center rounded-full bg-gray-100 hover:text-white ${social.hoverColor} transition-all duration-300 group`}
               title={social.name}
             >
@@ -92,6 +96,7 @@ export default function Footer() {
         <p className="text-center mt-6 text-sm text-gray-500">
           © {new Date().getFullYear()} Kevish Sewliya. All rights reserved.
         </p>
+        <ViewCount />
       </div>
     </footer>
   )
