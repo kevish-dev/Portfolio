@@ -1,19 +1,25 @@
 import { requireAdmin } from '@/lib/admin'
 import { dbSelect, isSupabaseConfigured } from '@/lib/supabase'
+import { safe } from '@/lib/safe'
 import { deleteMessage, setMessageRead } from '../../actions'
 
 type Message = { id: string; created_at: string; name: string; email: string; message: string; read: boolean }
 
 export default async function MessagesPage() {
   await requireAdmin()
-  const messages = isSupabaseConfigured()
-    ? await dbSelect<Message>('contact_messages', 'select=id,created_at,name,email,message,read&order=created_at.desc&limit=200')
-    : []
+  const { data: messages, error } = await safe(
+    () =>
+      isSupabaseConfigured()
+        ? dbSelect<Message>('contact_messages', 'select=id,created_at,name,email,message,read&order=created_at.desc&limit=200')
+        : Promise.resolve([]),
+    [] as Message[]
+  )
 
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-bold">Messages</h1>
-      {messages.length === 0 && <p className="text-gray-600">No messages yet.</p>}
+      {error && <p role="alert" className="rounded-lg border border-red-300 bg-red-50 p-4 text-red-800">{error}</p>}
+      {!error && messages.length === 0 && <p className="text-gray-600">No messages yet.</p>}
       {messages.map((m) => (
         <article key={m.id} className={`rounded-xl border p-5 shadow-sm ${m.read ? 'bg-white' : 'bg-[#c5f467]/10 border-[#9cc63f]'}`}>
           <header className="flex flex-wrap items-baseline justify-between gap-2">

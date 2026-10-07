@@ -1,15 +1,20 @@
 import { requireAdmin } from '@/lib/admin'
 import { RESUME_BUCKET, dbSelect, isSupabaseConfigured, storagePublicUrl } from '@/lib/supabase'
 import { deleteResume } from '../../actions'
+import { safe } from '@/lib/safe'
 import UploadForm from './UploadForm'
 
 type Version = { id: string; created_at: string; path: string; size_bytes: number; original_name: string }
 
 export default async function ResumeAdminPage() {
   await requireAdmin()
-  const versions = isSupabaseConfigured()
-    ? await dbSelect<Version>('resume_versions', 'select=id,created_at,path,size_bytes,original_name&order=created_at.desc&limit=50')
-    : []
+  const { data: versions, error } = await safe(
+    () =>
+      isSupabaseConfigured()
+        ? dbSelect<Version>('resume_versions', 'select=id,created_at,path,size_bytes,original_name&order=created_at.desc&limit=50')
+        : Promise.resolve([]),
+    [] as Version[]
+  )
 
   return (
     <div className="flex flex-col gap-6">
@@ -18,6 +23,7 @@ export default async function ResumeAdminPage() {
         The newest upload is shown on <a href="/resume" className="text-blue-700 underline">/resume</a>.
         With no uploads, the site falls back to the bundled PDF.
       </p>
+      {error && <p role="alert" className="rounded-lg border border-red-300 bg-red-50 p-4 text-red-800">{error}</p>}
       <UploadForm />
       <section className="rounded-xl bg-white p-5 shadow-sm border">
         <h2 className="font-semibold mb-3">Uploaded versions</h2>

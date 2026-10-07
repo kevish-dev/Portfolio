@@ -3,8 +3,20 @@ import 'server-only'
 // Minimal Supabase REST client (PostgREST + Storage) built on fetch.
 // Uses the secret key, so it must only ever run on the server.
 
-const url = process.env.SUPABASE_URL?.replace(/\/$/, '')
-const key = process.env.SUPABASE_SECRET_KEY
+// Accept whatever was pasted (quotes, trailing slash, "/rest/v1", missing https://)
+// and reduce it to the bare project origin, e.g. https://abcd1234.supabase.co
+function normalizeUrl(raw: string | undefined) {
+  const trimmed = raw?.trim().replace(/^["']|["']$/g, '')
+  if (!trimmed) return undefined
+  try {
+    return new URL(/^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`).origin
+  } catch {
+    return undefined
+  }
+}
+
+const url = normalizeUrl(process.env.SUPABASE_URL)
+const key = process.env.SUPABASE_SECRET_KEY?.trim().replace(/^["']|["']$/g, '')
 
 export const RESUME_BUCKET = 'resume'
 
